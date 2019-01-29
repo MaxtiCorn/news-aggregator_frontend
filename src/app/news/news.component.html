@@ -1,0 +1,11 @@
+<form>
+  <input [(ngModel)]='searchQuery' name='search' class='form-control form-control-sm search-input'>
+  <input type='button' value='найти' class='btn btn-outline-primary' (click)='search()'>
+  <input type='button' value='обновить' class='btn btn-outline-primary' (click)='refresh()'>
+</form>
+<div class='news'>
+  <article class='new' *ngFor='let new of news'>
+    <a href='{{new.link}}'>{{new.title}}</a>
+    <div>{{new.description}}</div>
+  </article>
+</div>
