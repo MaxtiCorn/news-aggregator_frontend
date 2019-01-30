@@ -1,11 +1,16 @@
-<form>
-  <input [(ngModel)]='searchQuery' name='search' class='form-control form-control-sm search-input'>
-  <input type='button' value='найти' class='btn btn-outline-primary' (click)='search()'>
-  <input type='button' value='обновить' class='btn btn-outline-primary' (click)='refresh()'>
+<form class='search-form'>
+  <input class='form-control search-input' [(ngModel)]='searchQuery' name='search' placeholder='поиск'>
+  <input class='btn btn-outline-secondary search-button' type='button' value='найти' (click)='search()'>
 </form>
 <div class='news'>
-  <article class='new' *ngFor='let new of news'>
-    <a href='{{new.link}}'>{{new.title}}</a>
-    <div>{{new.description}}</div>
-  </article>
+  <input type='button' value='обновить' class='btn btn-outline-secondary btn-sm' (click)='refresh()'>
+  <div class='flex-container'>
+    <article class='news-item card' *ngFor='let news_item of news'>
+      <div class='card-body'>
+        <h5 class='card-title'>{{news_item.title}}</h5>
+        <p class='card-text'>{{news_item.description}}</p>
+        <a class='btn btn-outline-info btn-sm' href='{{news_item.link}}' target='_blank'>подробнее</a>
+      </div>
+    </article>
+  </div>
 </div>

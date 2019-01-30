@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../newsService';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-news',
@@ -24,30 +25,26 @@ export class NewsComponent implements OnInit {
     this.refresh()
   }
 
-  refresh() {
-    this._newsService.getNews()
-      .subscribe((news: { title: string, description: string, link: string }[]) => {
-        this._news = news.map(n => {
-          return {
-            title: n.title ? n.title : n.link,
-            description: n.description,
-            link: n.link
-          }
-        });
+  private updateNews(observable: Observable<Object>) {
+    observable.subscribe((news: { title: string, description: string, link: string }[]) => {
+      this._news = news.map(n => {
+        return {
+          title: n.title ? n.title : n.link,
+          description: n.description,
+          link: n.link
+        }
       });
+    }, error => { console.log(error.message) })
+  }
+
+  refresh() {
+    this.updateNews(this._newsService.getNews());
   }
 
   search() {
-    this._newsService.searchNews(this._searchQuery)
-      .subscribe((news: { title: string, description: string, link: string }[]) => {
-        this._news = news.map(n => {
-          return {
-            title: n.title ? n.title : n.link,
-            description: n.description,
-            link: n.link
-          }
-        });
-      });
+    if (this._searchQuery) {
+      this.updateNews(this._newsService.searchNews(this._searchQuery));
+    }
   }
 
 }
